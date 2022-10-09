@@ -15,10 +15,6 @@ var typicodeApiClient = getTypicodeApiClient()
 func main() {
 	logger := log.Default()
 
-	typicodeApiClient.SetMaxIdleConnections(1)
-
-	typicodeApiClient.SetConnectionTimeout(time.Second * 2)
-
 	res, err := typicodeApiClient.Get("https://jsonplaceholder.typicode.com/todos/1", nil)
 
 	if err != nil {
@@ -43,7 +39,7 @@ func getTypicodeApiClient() gofetch.Client {
 
 	headers.Set("Authorization", "Bearer token")
 
-	client := gofetch.NewBuilder().Build()
+	client := gofetch.NewBuilder().SetMaxIdleConnections(1).SetConnectionTimeout((time.Second * 2)).Build()
 
 	return client
 }
