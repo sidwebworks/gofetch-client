@@ -14,7 +14,7 @@ func TestGetRequestHeaders(t *testing.T) {
 	customHeaderss.Set("Content-Type", "application/json")
 	customHeaderss.Set("User-Agent", "gofetch-http-client")
 
-	client.headers = customHeaderss
+	client.builder.headers = customHeaderss
 
 	// Execution
 	requestHeaders := make(http.Header)

@@ -2,6 +2,7 @@ package gofetch
 
 import (
 	"net/http"
+	"sync"
 	"time"
 )
 
@@ -23,19 +24,15 @@ type clientBuilder struct {
 	headers http.Header
 }
 
-func NewBuilder() ClientBuilder {
+func New() ClientBuilder {
 	builder := &clientBuilder{}
-
 	return builder
 }
 
 func (c *clientBuilder) Build() Client {
 	client := fetchClient{
-		maxIdleConnections: c.maxIdleConnections,
-		headers:            c.headers,
-		connectionTimeout:  c.connectionTimeout,
-		responseTimeout:    c.responseTimeout,
-		disabledTimeouts:   c.disabledTimeouts,
+		builder:  c,
+		syncOnce: sync.Once{},
 	}
 
 	return &client
